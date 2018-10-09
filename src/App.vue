@@ -16,7 +16,9 @@ import MusicPlayerProgress from './components/MusicPlayerProgress.vue'
 export default {
   name: 'app',
   data(){
-   
+    return {
+      playList: '',
+    }
   },
   components: {
     MusicPlayer,

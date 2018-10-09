@@ -2,16 +2,16 @@
   <div id="musicplayer">
     <ul class="player__controlbtn-list">
       <li>
-        <button>prev</button>
+        <button  @click="handlePrevButtonClick">prev</button>
       </li>
       <li>
-        <button @click="handlePlayPause">{{setPlayPauseButtonText}}</button>
+        <button @click="handlePlayPauseButtonClick">{{setPlayPauseButtonText}}</button>
       </li>
       <li>
-        <button>next</button>
+        <button  @click="handleNextButtonClick">next</button>
       </li>
        <li v-if="hasStop">
-        <button>stop</button>
+        <button  @click="handleStop">stop</button>
       </li>
       <li>
         <button>shuffle</button>
@@ -37,7 +37,7 @@ export default {
     }
   },
   methods : {
-    handlePlayPause(){
+    handlePlayPauseButtonClick(){
       if(this.isPlayButton) return this.handlePlayBtnClick()
       else return this.handlePauseBtnClick()
     },
@@ -51,6 +51,12 @@ export default {
     },
     togglePlayPauseState(){
       this.isPlayButton = !this.isPlayButton;
+    },
+    handleNextButtonClick(){
+      window.musicLibrary.next()
+    },
+    handlePrevButtonClick(){
+      window.musicLibrary.prev()
     },
   }
 }
