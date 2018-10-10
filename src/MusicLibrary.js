@@ -7,6 +7,9 @@
      this.mockPlayEl = document.querySelector(audioSelector);
      this.setPlayingOne()
    }
+   getPlayingOne(){
+     return this.playingOne;
+   }
    setPlayingOne(activeIdx = 0){
     this.playingOne = this.library[activeIdx];
     this.mockPlayEl.setAttribute('src',this.playingOne.src)

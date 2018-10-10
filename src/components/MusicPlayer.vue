@@ -20,6 +20,12 @@
         <button>반복재생</button>
       </li>
     </ul>
+    <div class="playingOne__box">
+      <img class="cover__thumbnail" :src="setCoverPlayingOne" alt="">
+      <span v-if="hasSoundBadGe">badge</span>
+       <span >{{playingOne.artist}}</span>
+       <span >{{playingOne.title}}</span>
+    </div>
   </div>
 </template>
 
@@ -29,11 +35,19 @@ export default {
     return {
       isPlayButton: true,
       hasStop: false,
+      hasSoundBadGe: false,
+      playingOne: null,
     }
+  },
+  mounted(){
+    this.playingOne =  window.musicLibrary.getPlayingOne()
   },
   computed: {
     setPlayPauseButtonText(){
       return this.isPlayButton ? 'play' : 'pause'
+    },
+    setCoverPlayingOne(){
+      return this.playingOne ? this.playingOne.cover : '#'
     }
   },
   methods : {
@@ -52,10 +66,15 @@ export default {
     togglePlayPauseState(){
       this.isPlayButton = !this.isPlayButton;
     },
+    setPlayState(){
+      this.isPlayButton = false;
+    },
     handleNextButtonClick(){
+      this.setPlayState()
       window.musicLibrary.next()
     },
     handlePrevButtonClick(){
+      this.setPlayState()
       window.musicLibrary.prev()
     },
   }
@@ -63,8 +82,16 @@ export default {
 </script>
 
 <style lang="scss">
-.player__controlbtn-list {
+.player__controlbtn-list,
+.playingOne__box {
   display: flex;
   align-items: center;
+}
+
+.cover__thumbnail {
+  max-width: 100%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 }
 </style>
