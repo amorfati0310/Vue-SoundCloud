@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <MusicPlayer></MusicPlayer>
-    <MusicPlayerProgress></MusicPlayerProgress>
   </div>
 </template>
 

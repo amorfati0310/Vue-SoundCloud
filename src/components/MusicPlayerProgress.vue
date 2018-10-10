@@ -1,22 +1,20 @@
 <template>
- <div 
-  class="progressWrapper"
-  role="progressbar"
-  aria-valuenow=""
-  aria-valuemax=""
-  >
-   <div class="progressBackground">
-
-   </div>
-    <div class="progressHandler">
-     
-   </div>
- </div>
+ <div class="progress__box">
+    <div class="timer">{{loadCurrentTime}}</div>
+    <div class="progressWrapper" role="progressbar">
+    <div class="progressBackground"></div>
+    <div class="progressPassedBackground"  :style="loadProgress"></div>
+    <div class="progressHandler" :style="loadProgressHandler"></div>
+    </div>
+    <div class="runningTime">
+      {{loadRunningTime}}
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-
+  props: ['loadProgressHandler','loadProgress','loadCurrentTime', 'loadRunningTime']
 }
 </script>
 <style lang="scss" scoped>

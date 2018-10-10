@@ -11,8 +11,8 @@ const mockMusicLibrary = [
   },
   {
     "id":2,
-    "title": "EdSheeran-ShapeOfYou",
-    "artist": "EdSheeran",
+    "title": "TheChainsmokers&Halsey-Closer",
+    "artist": "TheChainsmoker",
     "runningTime": 12000,
     "album": "Red Pill Blues (Deluxe Edition)",
     "genre": "ROCK",
@@ -21,8 +21,8 @@ const mockMusicLibrary = [
   },
   {
     "id":3,
-    "title": "EdSheeran-ShapeOfYou",
-    "artist": "EdSheeran",
+    "title": "Zayn&TaylorSwift-IDon'tWannaLiveForever(FiftyShadesDarker)",
+    "artist": "Zayn&TaylorSwift",
     "runningTime": 13000,
     "album": "Red Pill Blues (Deluxe Edition)",
     "genre": "ROCK",

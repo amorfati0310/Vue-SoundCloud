@@ -1,5 +1,5 @@
 <template>
-  <div id="musicplayer">
+  <section id="musicplayer">
     <ul class="player__controlbtn-list">
       <li>
         <button  @click="handlePrevButtonClick">prev</button>
@@ -20,29 +20,28 @@
         <button>continuous</button>
       </li>
     </ul>
+     <MusicPlayerProgress 
+      :loadCurrentTime="loadCurrentTime"
+      :loadProgress="loadProgress"
+      :loadProgressHandler="loadProgressHandler"
+      :loadRunningTime="loadRunningTime"
+    />
     <div class="playingOne__box">
       <img class="cover__thumbnail" :src="musicLibrary.playingOne.cover" alt="">
       <span v-if="hasSoundBadGe">badge</span>
-       <span >{{musicLibrary.playingOne.artist}}</span>
-       <span >{{musicLibrary.playingOne.title}}</span>
+      <span >{{musicLibrary.playingOne.title}}</span>
     </div>
-     <div class="progress__box">
-       <div class="timer">{{loadCurrentTime}}</div>
-       <div class="progressWrapper" role="progressbar">
-        <div class="progressBackground"></div>
-        <div class="progressPassedBackground"  :style="loadProgress"></div>
-        <div class="progressHandler":style="loadProgressHandler"></div>
-       </div>
-        <div class="runningTime">
-          {{loadRunningTime}}
-        </div>
-     </div>
-  </div>
+   
+  </section>
 </template>
 
 <script>
 import {musicTimeFormat} from '../helper.js';
+import MusicPlayerProgress from './MusicPlayerProgress.vue';
 export default {
+ components: {
+  MusicPlayerProgress,
+ },
  data(){
     return {
       isPlayButton: true,
@@ -119,20 +118,36 @@ export default {
 </script>
 
 <style lang="scss">
+#musicplayer {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  height: 50px;
+  background: #f2f2f2;
+  border-top: 1px solid #cecece;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .player__controlbtn-list,
 .playingOne__box {
   display: flex;
   align-items: center;
+  margin-right: 12px;
+  margin-left: 12px;
 }
 
 .cover__thumbnail {
   max-width: 100%;
   width: 40px;
   height: 40px;
-  margin-right: 10px;
+  margin-right: 18px;
+  margin-left: 10px;
 }
 
 .progress__box {
+  min-width: 40%;
   display: flex;
   align-items: center;
   .progressWrapper {
