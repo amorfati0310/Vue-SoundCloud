@@ -17,13 +17,12 @@ export default {
   name: 'app',
   data(){
     return {
-      playList: '',
+      musicLibrary: ''
     }
   },
   components: {
     MusicPlayer,
     MusicPlayerProgress,
-  
   }
 }
 </script>

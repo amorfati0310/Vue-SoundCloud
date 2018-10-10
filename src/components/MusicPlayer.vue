@@ -21,12 +21,13 @@
       </li>
     </ul>
     <div class="playingOne__box">
-      <img class="cover__thumbnail" :src="setCoverPlayingOne" alt="">
+      <img class="cover__thumbnail" :src="musicLibrary.playingOne.cover" alt="">
       <span v-if="hasSoundBadGe">badge</span>
-       <span >{{playingOne.artist}}</span>
-       <span >{{playingOne.title}}</span>
+       <span >{{musicLibrary.playingOne.artist}}</span>
+       <span >{{musicLibrary.playingOne.title}}</span>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -36,11 +37,8 @@ export default {
       isPlayButton: true,
       hasStop: false,
       hasSoundBadGe: false,
-      playingOne: null,
+      musicLibrary: window.musicLibrary,
     }
-  },
-  mounted(){
-    this.playingOne =  window.musicLibrary.getPlayingOne()
   },
   computed: {
     setPlayPauseButtonText(){
