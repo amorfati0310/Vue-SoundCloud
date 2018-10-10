@@ -17,7 +17,7 @@
         <button>shuffle</button>
       </li>
       <li>
-        <button>반복재생</button>
+        <button>continuous</button>
       </li>
     </ul>
     <div class="playingOne__box">
@@ -26,11 +26,25 @@
        <span >{{musicLibrary.playingOne.artist}}</span>
        <span >{{musicLibrary.playingOne.title}}</span>
     </div>
+     <div class="progress__box">
+       <div class="timer"></div>
+       <div 
+        class="progressWrapper"
+        role="progressbar"
+        aria-valuenow=""
+        aria-valuemax=""
+        ></div>
+        <div class="progressBackground"></div>
+        <div class="progressHandler"></div>
+        <div class="runningTime">
+          {{loadRunningTime}}
+        </div>
+    </div>
   </div>
-
 </template>
 
 <script>
+import {musicTimeFormat} from '../helper.js';
 export default {
  data(){
     return {
@@ -44,8 +58,8 @@ export default {
     setPlayPauseButtonText(){
       return this.isPlayButton ? 'play' : 'pause'
     },
-    setCoverPlayingOne(){
-      return this.playingOne ? this.playingOne.cover : '#'
+    loadRunningTime(){
+      return musicTimeFormat(this.musicLibrary.playingOne.runningTime)
     }
   },
   methods : {
