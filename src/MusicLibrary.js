@@ -41,6 +41,9 @@
     this.setPlayingOne(prevIdx)
     this.play();
    }
+   getCurrentTime(){
+     return this.mockPlayEl.currentTime
+   }
  }
 
 
