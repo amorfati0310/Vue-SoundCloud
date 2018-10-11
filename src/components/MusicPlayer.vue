@@ -77,6 +77,7 @@ export default {
   },
   methods : {
     shuffleList(){
+      debugger;
         shuffle(window.musicLibrary.library)
     },
     handlePlayPauseButtonClick(){
