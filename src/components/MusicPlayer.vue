@@ -90,6 +90,9 @@ export default {
      this.togglePlayPauseState()
     },
     startTimer(){
+      if(this.currentTime>=window.musicLibrary.getRunningTime()){
+        return this.handleNextButtonClick()
+      }
       this.currentTime = Math.floor(window.musicLibrary.getCurrentTime()*1000)
       this.timerId = setTimeout(()=>this.startTimer(),200)
     },

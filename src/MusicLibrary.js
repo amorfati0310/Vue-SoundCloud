@@ -10,6 +10,10 @@
    getPlayingOne(){
      return this.playingOne;
    }
+   getRunningTime(){
+    //  mock 자동 넘어가는 부분 구현을 위한 mock 처리 
+     return this.playingOne.runningTime;
+   }
    setPlayingOne(activeIdx = 0){
     this.playingOne = this.library[activeIdx];
     this.mockPlayEl.setAttribute('src',this.playingOne.src)
