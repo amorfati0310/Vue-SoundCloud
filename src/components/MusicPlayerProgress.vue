@@ -18,31 +18,59 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.progressBackground {
-  width: 100%;
-  height: 1px;
-  background-color: #ccc;
-}
-
-.progressWrapper {
-  position: relative;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  padding: 10px 0;
-  margin: 13px 10px 0 10px;
-}
-
-.progressHandler {
-  border: 1px solid #f50;
-  border-radius: 100%;
-  height: 8px;
-  width: 8px;
-  background-color: #f50;
-  box-sizing: border-box;
-  margin-top: -4px;
-  margin-left: -4px;
-  /* opacity: 0; */
-  transition: opacity 150ms;
+.progress__box {
+  min-width: 40%;
+  display: flex;
+  &:hover {
+    .progressHandler {
+      opacity: 1;
+    }
+  }
+  align-items: center;
+  .progressWrapper {
+    position: relative;
+    -ms-flex-positive: 1;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    padding: 10px 0;
+    margin: 13px 10px 0 10p;
+  }
+  .timer,
+  .runningTime {
+    text-align: right;
+    font-size: 11px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  .timer {
+    color: #f50;
+  }
+  .progressBackground,
+  .progressPassedBackground {
+    height: 1px;
+  }
+  .progressBackground {
+    background-color: #ccc;
+  }
+  .progressPassedBackground {
+    width: 0%;
+    background-color: #f50;
+    z-index: 1000;
+  }
+  .progressHandler {
+    position: absolute;
+    border: 1px solid #f50;
+    border-radius: 100%;
+    height: 8px;
+    width: 8px;
+    background-color: #f50;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: -4px;
+    margin-left: -4px;
+    opacity: 0;
+    -webkit-transition: opacity 150ms;
+    transition: opacity 150ms;
+  }
 }
 </style>

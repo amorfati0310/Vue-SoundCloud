@@ -14,7 +14,7 @@
         <button  @click="handleStop">stop</button>
       </li>
       <li>
-        <button>shuffle</button>
+        <button @click="shuffleList">shuffle</button>
       </li>
       <li>
         <button>continuous</button>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {musicTimeFormat} from '../helper.js';
+import {musicTimeFormat, shuffle} from '../helper.js';
 import MusicPlayerProgress from './MusicPlayerProgress.vue';
 export default {
  components: {
@@ -76,6 +76,9 @@ export default {
     }
   },
   methods : {
+    shuffleList(){
+        shuffle(window.musicLibrary.library)
+    },
     handlePlayPauseButtonClick(){
       if(this.isPlayButton) return this.handlePlayBtnClick()
       else return this.handlePauseBtnClick()
@@ -144,59 +147,5 @@ export default {
   height: 40px;
   margin-right: 18px;
   margin-left: 10px;
-}
-
-.progress__box {
-  min-width: 40%;
-  display: flex;
-  align-items: center;
-  .progressWrapper {
-    position: relative;
-    -ms-flex-positive: 1;
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-    padding: 10px 0;
-    margin: 13px 10px 0 10p;
-  }
-  .timer,
-  .runningTime {
-    text-align: right;
-    font-size: 11px;
-    margin-right: 10px;
-    margin-left: 10px;
-  }
-  .timer {
-    color: #f50;
-  }
-  .progressBackground,
-  .progressPassedBackground {
-    height: 1px;
-  }
-  .progressBackground {
-    background-color: #ccc;
-  }
-  .progressPassedBackground {
-    width: 0%;
-    background-color: #f50;
-    z-index: 1000;
-  }
-  .progressHandler {
-    position: absolute;
-    border: 1px solid #f50;
-    border-radius: 100%;
-    height: 8px;
-    width: 8px;
-    background-color: #f50;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    margin-top: -4px;
-    margin-left: -4px;
-    opacity: 0;
-    -webkit-transition: opacity 150ms;
-    transition: opacity 150ms;
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
 </style>
