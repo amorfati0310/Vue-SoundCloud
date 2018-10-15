@@ -19,7 +19,6 @@
       </li>
        <li v-if="hasStop">
         <button  @click="handleStop">
-         
           <img src="../assets/icons/sc_next.svg" alt="">
         </button>
       </li>
@@ -71,9 +70,6 @@ export default {
     }
   },
   computed: {
-    setPlayPauseButtonText(){
-      return this.isPlayButton ? 'play' : 'pause'
-    },
     loadRunningTime(){
       return musicTimeFormat(this.musicLibrary.playingOne.runningTime)
     },
@@ -111,7 +107,7 @@ export default {
         return this.handleNextButtonClick()
       }
       this.currentTime = Math.floor(window.musicLibrary.getCurrentTime()*1000)
-      this.timerId = setTimeout(()=>this.startTimer(),200)
+      this.timerId = setTimeout(()=>this.startTimer(),16)
     },
     stopTimer(){
       clearTimeout(this.timerId)
