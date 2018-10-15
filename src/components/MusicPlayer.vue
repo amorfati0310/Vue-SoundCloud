@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import animation from '../animation.js';
 import {musicTimeFormat, shuffle} from '../helper.js';
 import MusicPlayerProgress from './MusicPlayerProgress.vue';
 
@@ -103,10 +104,12 @@ export default {
      this.togglePlayPauseState()
     },
     startTimer(){
-      if(this.currentTime>=window.musicLibrary.getRunningTime()){
+      this.currentTime = Math.floor(this.musicLibrary.getCurrentTime()*1000)
+      console.log(this.musicLibrary.getCurrentTime(),
+      this.musicLibrary.mockGetRunningTime())
+      if(this.musicLibrary.getCurrentTime()>=this.musicLibrary.mockGetRunningTime()){
         return this.handleNextButtonClick()
       }
-      this.currentTime = Math.floor(window.musicLibrary.getCurrentTime()*1000)
       this.timerId = setTimeout(()=>this.startTimer(),16)
     },
     stopTimer(){
@@ -124,11 +127,13 @@ export default {
       this.isPlayButton = false;
     },
     handleNextButtonClick(){
+      this.stopTimer();
       this.setPlayState()
       window.musicLibrary.next()
       this.startTimer();
     },
     handlePrevButtonClick(){
+      this.stopTimer();
       this.setPlayState()
       window.musicLibrary.prev()
       this.startTimer();

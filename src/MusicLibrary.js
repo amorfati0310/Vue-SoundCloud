@@ -7,6 +7,9 @@
      this.mockPlayEl = document.querySelector(audioSelector);
      this.setPlayingOne()
    }
+   mockGetRunningTime(){
+     return Math.floor(this.playingOne.runningTime/1000)
+   }
    getPlayingOne(){
      return this.playingOne;
    }
