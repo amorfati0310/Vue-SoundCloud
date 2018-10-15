@@ -2,22 +2,36 @@
   <section id="musicplayer">
     <ul class="player__controlbtn-list">
       <li>
-        <button  @click="handlePrevButtonClick">prev</button>
+        <button  @click="handlePrevButtonClick">
+          <img src="../assets/icons/sc_prev.svg" alt="">
+        </button>
       </li>
       <li>
-        <button @click="handlePlayPauseButtonClick">{{setPlayPauseButtonText}}</button>
+        <button @click="handlePlayPauseButtonClick">
+          <img v-if="isPlayButton" src="../assets/icons/sc_play.svg" alt="">
+          <img v-else src="../assets/icons/sc_pause.svg" alt="">
+        </button>
       </li>
       <li>
-        <button  @click="handleNextButtonClick">next</button>
+        <button  @click="handleNextButtonClick">
+          <img src="../assets/icons/sc_next.svg" alt="">
+        </button>
       </li>
        <li v-if="hasStop">
-        <button  @click="handleStop">stop</button>
+        <button  @click="handleStop">
+         
+          <img src="../assets/icons/sc_next.svg" alt="">
+        </button>
       </li>
       <li>
-        <button @click="shuffleList">shuffle</button>
+        <button @click="shuffleList">
+          <img src="../assets/icons/sc_shuffle.svg" alt="">
+        </button>
       </li>
       <li>
-        <button>continuous</button>
+        <button>
+          <img src="../assets/icons/sc_continue.svg" alt="">
+        </button>
       </li>
     </ul>
      <MusicPlayerProgress 
@@ -38,6 +52,10 @@
 <script>
 import {musicTimeFormat, shuffle} from '../helper.js';
 import MusicPlayerProgress from './MusicPlayerProgress.vue';
+
+//assets
+
+
 export default {
  components: {
   MusicPlayerProgress,
@@ -77,7 +95,6 @@ export default {
   },
   methods : {
     shuffleList(){
-      debugger;
         shuffle(window.musicLibrary.library)
     },
     handlePlayPauseButtonClick(){
