@@ -12,10 +12,8 @@
           <li><a href="">Collection</a></li>
         </ul> 
       </nav>
-      <form class="headerSearch">
-        <input type="text" placeholder="Search">
-        <button class="headerSearch__submit textHide" type="submit">Search</button>
-      </form>
+      <SearchForm
+      />
       <div class="uploadBox">
         <a href="">Upload</a>
       </div>
@@ -31,10 +29,13 @@
 </template>
 
 <script>
+import SearchForm from './SearchForm'
 
 export default {
   props: ['logo'],
-  
+  components: {
+    SearchForm,
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -89,42 +90,7 @@ export default {
     color: #fff;
   }
 }
-.headerSearch {
-  flex: 1;
-  padding: 9px 10px 8px;
-  position: relative;
-  color: #999;
-  input {
-    height: 30px;
-    width: 100%;
-    font-family: "Interstate", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Garuda, Verdana, Tahoma,
-      sans-serif;
-    font-weight: 100;
-    font-size: 14px;
-    line-height: 20px;
-    border-radius: 4px;
-    color: #666;
-    outline: 0;
-    border: 0;
-    padding: 5px 7px;
-    background: #e5e5e5;
-  }
-  input:focus {
-    background: #fff;
-  }
-}
 
-.headerSearch__submit {
-  border: 0;
-  padding: 0;
-  background: url(../assets/icons/search.svg) center center no-repeat;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-}
 // upload
 .uploadBox {
   display: flex;

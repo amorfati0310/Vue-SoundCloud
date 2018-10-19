@@ -4,7 +4,7 @@
      
       <p class="list__description">Hear the latest posts from the people you’re following:</p>
       <ul>
-        <li class="soundList__item" v-for="music in playList.library" :key=music.id>
+        <li class="soundList__item" v-for="music in getMusicList" :key=music.id>
           <div class="soundContext">
             <div class="genre-avatar textHide">Genre avatar</div>
             <div class="soundContext__box">
@@ -87,7 +87,6 @@ export default {
   data(){
     return {
       logo: soundLogo,
-      playList: window.musicLibrary
     }
   },
   methods: {
@@ -96,7 +95,9 @@ export default {
     }
   },
   computed: {
-  
+    getMusicList(){
+      return this.$store.state.musicLibrary.searched
+    },
   },
   components: {
     Header,
@@ -203,29 +204,6 @@ button {
     width: 100%;
     display: flex;
     justify-content: space-between;
-  }
-}
-
-.mainmenu__tab {
-  padding-top: 30px;
-  display: flex;
-  border-bottom: 1px solid #f2f2f2;
-  li {
-    margin-right: 12px;
-    font-size: 24px;
-    line-height: 1.6;
-    &:hover {
-      a {
-        color: #f30;
-        border-bottom: 1px solid #f30;
-      }
-    }
-  }
-  a {
-    cursor: pointer;
-    color: #333;
-    border-bottom: 1px solid transparent;
-    display: block;
   }
 }
 
