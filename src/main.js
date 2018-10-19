@@ -1,11 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
-import MusicLibrary from './MusicLibrary'
+import Vue from "vue";
+import App from "./App.vue";
+import MusicLibrary from "./MusicLibrary";
+import router from "./router";
+//미들웨어
 
-const musicLibrary = new MusicLibrary('#mockAudio');
+const musicLibrary = new MusicLibrary("#mockAudio");
 window.musicLibrary = musicLibrary;
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App)
-}).$mount('#app')
+  el: "#app",
+  render: h => h(App),
+  router
+});

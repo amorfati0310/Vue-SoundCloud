@@ -1,43 +1,24 @@
 <template>
-  <div id="app">
-    <Header :logo="logo"></Header>
-    <section class="router__section">
-      <ul class="mainmenu__tab">
-       <li>
-        <router-link to="/">
-          All
-        </router-link>
-       </li>
-       <li>
-        <router-link to="/">
-          Artists
-        </router-link>
-       </li>
-      <li>
-       <router-link to="/album">
-        Album
-       </router-link>
-      </li>
-      <li>
-       <router-link to="/album">
-        Genres
-       </router-link>
-      </li>
-    </ul>
+  <div id="album">
+    <section class="wrapper__main">
+      <h1 class="list__description">More of what you like</h1>
+      <p>Suggestions based on what you've liked or played</p>
+      <section class="main__ablumSlider">매인 앨범</section>
+      <section class="hotAlbumList">hotAlbum</section>
+      <section class="artistSlider"></section>
+      <section class="chartsSlider"></section>
     </section>
-    <router-view></router-view>
-    <MusicPlayer></MusicPlayer>
   </div>
 </template>
 
 <script>
 
-import Header from './components/Header.vue'
-import MusicPlayer from './components/MusicPlayer.vue'
-import MusicPlayerProgress from './components/MusicPlayerProgress.vue'
-import {musicTimeFormat} from './helper.js'
+import Header from './Header.vue'
+import MusicPlayer from './MusicPlayer.vue'
+import MusicPlayerProgress from './MusicPlayerProgress.vue'
+import {musicTimeFormat} from '../helper.js'
 // static Asset
-import  soundLogo  from "./assets/icons/soundLogo.png";
+import  soundLogo  from "../assets/icons/soundLogo.png";
 
 
 export default {
@@ -48,21 +29,13 @@ export default {
       playList: window.musicLibrary
     }
   },
-  computed: {
-    username () {
-      // 곧 `params` 확인할 수 있습니다.
-      return this.$route.params.username
-    }
-  },
   methods: {
     loadRunningTime(time){
       return musicTimeFormat(time)
-    },
-     goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
-    },
+    }
+  },
+  computed: {
+  
   },
   components: {
     Header,
@@ -73,12 +46,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./style/reset.scss";
-.router__section {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
+@import "../style/reset.scss";
 button {
   background: transparent;
   border: 0;
@@ -138,7 +106,7 @@ button {
 .genre-avatar {
   width: 30px;
   height: 30px;
-  background: url("./assets/images/edmExampleBadge.jpg");
+  background: url("../assets/images/edmExampleBadge.jpg");
   text-align: center;
   position: relative;
   background-size: cover;
