@@ -1,52 +1,42 @@
 <template>
   <div id="app">
-    <Header :logo="logo"></Header>
+    <Header :logo="logo" />
     <section class="router__section">
-      <ul class="mainmenu__tab">
-       <li>
-        <router-link to="/">
-          All
-        </router-link>
-       </li>
-       <li>
-        <router-link to="/">
-          Artists
-        </router-link>
-       </li>
-      <li>
-       <router-link to="/album">
-        Album
-       </router-link>
-      </li>
-      <li>
-       <router-link to="/album">
-        Genres
-       </router-link>
-      </li>
-    </ul>
+      <NavBar />
     </section>
-    <router-view></router-view>
-    <MusicPlayer></MusicPlayer>
+    <router-view />
+    <MusicPlayer />
   </div>
 </template>
 
 <script>
 
 import Header from './components/Header.vue'
+import NavBar from './components/NavBar.vue'
 import MusicPlayer from './components/MusicPlayer.vue'
 import MusicPlayerProgress from './components/MusicPlayerProgress.vue'
 import {musicTimeFormat} from './helper.js'
 // static Asset
 import  soundLogo  from "./assets/icons/soundLogo.png";
-
+import dragula from 'dragula';
+import 'dragula/dist/dragula.css';
 
 export default {
   name: 'app',
   data(){
     return {
       logo: soundLogo,
-      playList: window.musicLibrary
+      playList: window.musicLibrary,
+      dragularMusics: null,
     }
+  },
+  created(){
+    if(this.dragularMusics) this.dragularMusics.destroy()
+    // this.dragulaMusics = dragula([
+    //   ...Array.from(this.$el.querySelectorAll('.music-list'))
+    // ]).on('drop', (el, wrapper, target, siblings)=>{
+    //   console.log('drop')
+    // })
   },
   computed: {
     username () {
@@ -68,6 +58,7 @@ export default {
     Header,
     MusicPlayer,
     MusicPlayerProgress,
+    NavBar,
   }
 }
 </script>

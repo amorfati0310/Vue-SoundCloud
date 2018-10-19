@@ -5,8 +5,8 @@
       <p>Suggestions based on what you've liked or played</p>
       <section class="main__ablumSlider">매인 앨범</section>
       <section class="hotAlbumList">hotAlbum</section>
-      <section class="artistSlider"></section>
-      <section class="chartsSlider"></section>
+      <section class="artistSlider">아티스트</section>
+      <section class="chartsSlider">챠트 슬라이더</section>
     </section>
   </div>
 </template>
