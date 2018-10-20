@@ -18,8 +18,7 @@ import MusicPlayerProgress from './components/MusicPlayerProgress.vue'
 import {musicTimeFormat} from './helper.js'
 // static Asset
 import  soundLogo  from "./assets/icons/soundLogo.png";
-import dragula from 'dragula';
-import 'dragula/dist/dragula.css';
+
 
 export default {
   name: 'app',

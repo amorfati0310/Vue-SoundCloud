@@ -1,6 +1,5 @@
 <template>
- <ul>
-  <li class="soundList__item">
+  <li class="soundList__item" id="id">
     <div class="soundContext">
       <div class="genre-avatar textHide">Genre avatar</div>
             <div class="soundContext__box">
@@ -15,20 +14,21 @@
           <div class="music__item">
             <div class="album__thumnail">
               <a href="">
-                <img :src="music.cover" :alt="music.title">
+                <img :src="cover" :alt="title">
               </a>
             </div>
             <div class="music__content">
               <div class="music__content-header">
                 <button class="playPauseButton"      @click="handlePlayPauseButtonClicked"
-                :id="music.id"
+                :id="id"
                 >
-                  <img  v-if="isPlayButton" src="../assets/icons/sc_play_button.svg" alt="play pause 표시 버튼" />
-                  <img v-else src="../assets/icons/sc_pasue._button.svg" alt="play 재생 표시 버튼" />
+                  <img v-if="isPlayButton"
+                src="../assets/icons/sc_play_button.svg" alt="play pause 표시 버튼" /> 
+                 <img  v-else src="../assets/icons/sc_pasue._button.svg" alt="play 재생 표시 버튼" />
                 </button>
                 <div class="music__content-titleBox">
                   <span>R-wan</span>
-                  <h2 class="musicTitle">{{ music.title }}</h2>
+                  <h2 class="musicTitle">{{ title }}</h2>
                 </div>
                 </div>
                   <div class="wave__progress">
@@ -64,7 +64,6 @@
             </div>
           </div>
         </li>
-  </ul>
 </template>
 
 <script>
@@ -72,16 +71,17 @@ import MusicPlayerProgress from './MusicPlayerProgress.vue';
 import {musicTimeFormat} from '../helper.js'
 
 export default {
-
- props: ['music'],
- data() {
-   return {
-     isPlayButton: true,
-   }
+  data(){
+    return{
+      isPlayButton: true,
+    }
  },
- computed: {
-  
- },
+ props: ['id','title','cover', 'isPlaying'],
+ watch: { 
+      	isPlaying(newV,oldV){
+          console.log(newV, oldV)
+        }
+  },
  methods: {
     loadRunningTime(time){
       return musicTimeFormat(time)
@@ -97,15 +97,19 @@ export default {
       const playPauseButton = target.closest('button');
       const musicId = Number(playPauseButton.id);  
       this.toggleButtonState();
+      this.$emit('saveActiveIdx', {id: musicId})
       if(window.musicLibrary.playingOne.id===musicId){
         this.$store.commit('Play')
       }
       else this.$store.commit('PlayNewMusic', musicId)
       this.$EventBus.$emit('startTimer')
     },
-    handlePauseBtnClick(){ 
-      this.$store.commit('PauseMusic')
+    handlePauseBtnClick({target}){  
+       const playPauseButton = target.closest('button');
+      const musicId = Number(playPauseButton.id); 
       this.toggleButtonState();
+      this.$store.commit('PauseMusic')
+      this.$emit('saveActiveIdx', {id: musicId})
       this.$EventBus.$emit('pauseTimer')
     }
   }

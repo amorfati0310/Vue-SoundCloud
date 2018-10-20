@@ -134,6 +134,7 @@ export default {
      this.setPauseState()
     },
     handlePlayBtnClick(){
+      player.play()
      this.$store.commit('Play')
      this.setPlayingView();
     },
@@ -143,8 +144,8 @@ export default {
      this.setPauseState()
     },
     startTimer(){
-      console.log(this.$store.state.musicLibrary.getCurrentTime(),
-      this.$store.state.musicLibrary.mockGetRunningTime())
+      // console.log(this.$store.state.musicLibrary.getCurrentTime(),
+      // this.$store.state.musicLibrary.mockGetRunningTime())
 
   this.currentTime = this.$store.state.musicLibrary.getCurrentTime()
 
@@ -170,12 +171,14 @@ export default {
     handleNextButtonClick(){
       this.stopTimer();
       this.setPlayState();
+      player.playNext()
       this.$store.commit('PlayNextMusic')
       this.startTimer();
     },
     handlePrevButtonClick(){
       this.stopTimer();
       this.setPlayState();
+      player.playPrev()
       this.$store.commit('PlayPrevMusic')
       this.startTimer();
     },

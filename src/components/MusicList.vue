@@ -1,8 +1,12 @@
 <template>
  <ul>
    <MusicItem 
-    :music= music v-for="music in musicList" 
+    v-for="music in musicList" 
+     v-bind="music"
+     ref="musicItem"
     :key=music.id 
+    :isPlaying="checkPlaying(music.id)"
+    @saveActiveIdx="saveActiveIdx"
   />
   </ul>
 </template>
@@ -17,7 +21,19 @@ export default {
     MusicItem,
   },
  props: ['musicList'],
-
+  data() {
+    return {
+      playingId: 1,
+    }
+  },
+  methods: {
+    checkPlaying(id){
+      return this.playingId===id
+    },
+    saveActiveIdx({id}){
+      this.playingId = id;
+    }
+  }
 }
 </script>
 <style >
