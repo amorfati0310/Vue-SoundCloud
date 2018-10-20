@@ -21,6 +21,9 @@ const store = new Vuex.Store({
       const newMusicItem = state.musicLibrary.findShowList(id);
       state.musicLibrary.setPlayingOne(newMusicItem);
       state.musicLibrary.play();
+    },
+    PauseMusic(state) {
+      state.musicLibrary.pause();
     }
   }
 });
