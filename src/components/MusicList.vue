@@ -92,11 +92,10 @@ export default {
     handlePlayBtnClick({target}){
       const playPauseButton = target.closest('button');
       const musicId = Number(playPauseButton.id);
-      const willChangeOne = window.musicLibrary.  findShowList(musicId)
-     
-      // window.musicLibrary.pause();
-      // window.musicLibrary.setPlayingOne(willChangeOne);
-      // window.musicLibrary.play()
+      // 여기서 부터 어색함     
+      
+   const newMusicItem = window.musicLibrary.findShowList(musicId);
+     this.$store.commit('PlayNewMusic', musicId)
     }
   }
 }

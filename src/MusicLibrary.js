@@ -15,8 +15,8 @@ const MusicLibrary = class {
     this.setPlayingIdx();
   }
 
-  findShowList(id) {
-    return this.showList.find(({ id }) => id === id);
+  findShowList(musicId) {
+    return this.showList.find(({ id }) => id === musicId);
   }
   mockGetRunningTime() {
     return Math.floor(this.playingOne.runningTime / 1000);

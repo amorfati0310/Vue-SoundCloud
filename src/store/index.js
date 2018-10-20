@@ -16,6 +16,11 @@ const store = new Vuex.Store({
     },
     BackToBeforeSearchList(state) {
       state.musicLibrary.searched = state.musicLibrary.showList;
+    },
+    PlayNewMusic(state, id) {
+      const newMusicItem = state.musicLibrary.findShowList(id);
+      state.musicLibrary.setPlayingOne(newMusicItem);
+      state.musicLibrary.play();
     }
   }
 });
