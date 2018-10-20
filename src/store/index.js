@@ -13,6 +13,9 @@ const store = new Vuex.Store({
       state.musicLibrary.searched = state.musicLibrary.searched.filter(({ title }) => {
         return title.toLowerCase().includes(lowerSearchText);
       });
+    },
+    BackToBeforeSearchList(state) {
+      state.musicLibrary.searched = state.musicLibrary.showList;
     }
   }
 });

@@ -67,9 +67,23 @@
 </template>
 
 <script>
+import MusicPlayerProgress from './MusicPlayerProgress.vue';
+import {musicTimeFormat} from '../helper.js'
 
 export default {
- props: ['musicList']
+ props: ['musicList'],
+ methods: {
+    loadRunningTime(time){
+      return musicTimeFormat(time)
+    },
+    handlePlayPauseButtonClicked(){
+      if(this.isPlayButton) return this.handlePlayBtnClick()
+      else return this.handlePauseBtnClick()
+    },
+    handlePlayBtnClick(){
+
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

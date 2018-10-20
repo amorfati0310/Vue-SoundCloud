@@ -21,18 +21,6 @@ export default {
       isPlayButton: true,
     }
   },
-  methods: {
-    loadRunningTime(time){
-      return musicTimeFormat(time)
-    },
-    handlePlayPauseButtonClicked(){
-      if(this.isPlayButton) return this.handlePlayBtnClick()
-      else return this.handlePauseBtnClick()
-    },
-    handlePlayBtnClick(){
-
-    }
-  },
   computed: {
     getMusicList(){
       return this.$store.state.musicLibrary.searched

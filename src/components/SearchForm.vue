@@ -21,7 +21,7 @@ export default {
      e.preventDefault()
      const searchText = this.searchText
      this.$store.commit('FilterHomeList', searchText)
-     e.target.value = ''
+     this.searchText = '';
    }
  }
 }

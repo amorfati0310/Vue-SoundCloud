@@ -1,22 +1,22 @@
 <template>
-   <ul class="mainmenu__tab">
+   <ul class="mainmenu__tab" @click="handlePageRefresh">
        <li>
-        <router-link to="/">
+        <router-link to="/" name="router">
           All
         </router-link>
        </li>
        <li>
-        <router-link to="/">
+        <router-link to="/" name="router">
           Artists
         </router-link>
        </li>
       <li>
-       <router-link to="/album">
+       <router-link to="/album" name="router">
         Album
        </router-link>
       </li>
       <li>
-       <router-link to="/album">
+       <router-link to="/album" name="router">
         Genres
        </router-link>
       </li>
@@ -25,7 +25,12 @@
 
 <script>
 export default {
-
+  methods: {
+    handlePageRefresh({target: {name}}){
+      if(name!=="router") return;
+       this.$store.commit('BackToBeforeSearchList') 
+    }
+  },
 }
 </script>
 
