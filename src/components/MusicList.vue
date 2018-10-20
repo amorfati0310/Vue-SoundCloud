@@ -1,6 +1,6 @@
 <template>
  <ul>
-  <li class="soundList__item" v-for="music in playList.library" :key=music.id>
+  <li class="soundList__item" v-for="music in musicList" :key=music.id>
     <div class="soundContext">
       <div class="genre-avatar textHide">Genre avatar</div>
             <div class="soundContext__box">
@@ -69,8 +69,7 @@
 <script>
 
 export default {
-  props: ['logo'],
-  
+ props: ['musicList']
 }
 </script>
 <style lang="scss" scoped>

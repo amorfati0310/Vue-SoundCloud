@@ -1,97 +1,36 @@
 <template>
   <div id="home">
     <section class="wrapper__main">
-     
       <p class="list__description">Hear the latest posts from the people you’re following:</p>
-      <ul>
-        <li class="soundList__item" v-for="music in getMusicList" :key=music.id>
-          <div class="soundContext">
-            <div class="genre-avatar textHide">Genre avatar</div>
-            <div class="soundContext__box">
-              <span class="genre-text">
-                <a href="">EDMLead Selection</a>
-              </span>
-              <span class="timeline">reposted a trrack </span>
-              <span class="lasttime">5</span>
-              <span class="lasttime-prefix">hours a go</span>
-            </div>
-          </div>
-          <div class="music__item">
-            <div class="album__thumnail">
-              <a href="">
-                <img :src="music.cover" :alt="music.title">
-              </a>
-            </div>
-            <div class="music__content">
-              <div class="music__content-header">
-                <button class="playButton">
-                  <img src="../assets/icons/sc_play_button.svg" alt="play 재생 표시 버튼" />
-                </button>
-                <div class="music__content-titleBox">
-                   <span>R-wan</span>
-                   <h2>{{ music.title }}</h2>
-                </div>
-                </div>
-                  <div class="wave__progress">
-                    <div class="timer">
-                      <span class="start"></span>
-                      <span class="runningTime">{{loadRunningTime(music.runningTime)}}</span>
-                    </div>
-                </div>
-                <div class="music__toolbar">
-                  <div class="special__section">
-                    <ul class="special__buttonlist">
-                      <li>
-                        <button>Love</button>
-                      </li>
-                      <li>
-                        <button>Repost</button>
-                      </li>
-                      <li>
-                        <button>Share</button>
-                      </li>
-                      <li>
-                        <button>More</button>
-                      </li>
-                    </ul>
-                    <div class="downLoadLink">
-                      <a href="">Free DownLoad</a>
-                    </div>
-                    <div class="likeAndComment">
-                      <a href="">Like</a>
-                      <a href="">Comment</a>
-                    </div>
-                  </div>
-                </div>
-                
-            </div>
-          </div>
-        </li>
-      </ul>
+      <MusicList :musicList="getMusicList"/>
     </section>
   </div>
 </template>
 
 <script>
 
-import Header from './Header.vue'
-import MusicPlayer from './MusicPlayer.vue'
 import MusicPlayerProgress from './MusicPlayerProgress.vue'
+import MusicList from './MusicList'
 import {musicTimeFormat} from '../helper.js'
-// static Asset
-import  soundLogo  from "../assets/icons/soundLogo.png";
 
 
 export default {
-  name: 'app',
-  data(){
+  name: 'home',
+   data(){
     return {
-      logo: soundLogo,
+      isPlayButton: true,
     }
   },
   methods: {
     loadRunningTime(time){
       return musicTimeFormat(time)
+    },
+    handlePlayPauseButtonClicked(){
+      if(this.isPlayButton) return this.handlePlayBtnClick()
+      else return this.handlePauseBtnClick()
+    },
+    handlePlayBtnClick(){
+
     }
   },
   computed: {
@@ -100,9 +39,8 @@ export default {
     },
   },
   components: {
-    Header,
-    MusicPlayer,
     MusicPlayerProgress,
+    MusicList,
   }
 }
 </script>
