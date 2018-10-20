@@ -40,9 +40,9 @@
       :loadRunningTime="loadRunningTime"
     />
     <div class="playingOne__box">
-      <img class="cover__thumbnail" :src="musicLibrary.playingOne.cover" alt="">
+      <img class="cover__thumbnail" :src="playingOne.cover" alt="">
       <span v-if="hasSoundBadGe">badge</span>
-      <span >{{musicLibrary.playingOne.title}}</span>
+      <span >{{playingOne.title}}</span>
     </div>
    
   </section>
@@ -57,6 +57,7 @@ import MusicPlayerProgress from './MusicPlayerProgress.vue';
 
 
 export default {
+ props: ['playingOne'],
  components: {
   MusicPlayerProgress,
  },
@@ -65,30 +66,37 @@ export default {
       isPlayButton: true,
       hasStop: false,
       hasSoundBadGe: false,
-      musicLibrary: window.musicLibrary,
       currentTime: 0,
       timerId: null,
     }
   },
   computed: {
     loadRunningTime(){
-      return musicTimeFormat(this.musicLibrary.playingOne.runningTime)
+      return musicTimeFormat( this.$store.state.musicLibrary.playingOne.runningTime)
     },
     loadCurrentTime(){
       return musicTimeFormat(this.currentTime)
     },
      loadProgress () {
-        const percent = (this.currentTime/this.musicLibrary.playingOne.runningTime).toFixed(4)*100
+        const percent = (this.currentTime/this.$store.state.musicLibrary.playingOne.runningTime).toFixed(4)*100
             const style = {}
             style.width = percent+'%';
             return style
     },
     loadProgressHandler(){
-            const percent = (this.currentTime/this.musicLibrary.playingOne.runningTime).toFixed(4)*100
+            const percent = (this.currentTime/this.$store.state.musicLibrary.playingOne.runningTime).toFixed(4)*100
             const style = {}
             style.left = percent+'%';
             return style
     }
+  },
+  created() { 
+     this.$EventBus.$on('startTimer', () => { 
+        this.setPlayingView()
+      }); 
+    this.$EventBus.$on('pauseTimer', () => { 
+        this.setPauseView()
+    }); 
   },
   methods : {
     shuffleList(){
@@ -98,16 +106,29 @@ export default {
       if(this.isPlayButton) return this.handlePlayBtnClick()
       else return this.handlePauseBtnClick()
     },
-    handlePlayBtnClick(){
-     window.musicLibrary.play()
+    setPlayingView(){
      this.startTimer();
-     this.togglePlayPauseState()
+     this.setPlayState()
+    },
+    setPauseView(){
+     this.stopTimer();
+     this.setPauseState()
+    },
+    handlePlayBtnClick(){
+     this.$store.commit('Play')
+     this.setPlayingView();
+    },
+    handlePauseBtnClick(){
+     this.$store.commit('PauseMusic')
+     this.stopTimer();
+     this.setPauseState()
     },
     startTimer(){
-      this.currentTime = Math.floor(this.musicLibrary.getCurrentTime()*1000)
-      console.log(this.musicLibrary.getCurrentTime(),
-      this.musicLibrary.mockGetRunningTime())
-      if(this.musicLibrary.getCurrentTime()>=this.musicLibrary.mockGetRunningTime()){
+      this.currentTime = Math.floor(this.$store.state.musicLibrary.getCurrentTime()*1000)
+      console.log(this.$store.state.musicLibrary.getCurrentTime(),
+      this.$store.state.musicLibrary.mockGetRunningTime())
+
+      if(this.$store.state.musicLibrary.getCurrentTime()>=this.$store.state.musicLibrary.mockGetRunningTime()){
         return this.handleNextButtonClick()
       }
       this.timerId = setTimeout(()=>this.startTimer(),16)
@@ -115,16 +136,14 @@ export default {
     stopTimer(){
       clearTimeout(this.timerId)
     },
-    handlePauseBtnClick(){
-      window.musicLibrary.pause()
-      this.stopTimer();
-      this.togglePlayPauseState()
-    },
     togglePlayPauseState(){
       this.isPlayButton = !this.isPlayButton;
     },
     setPlayState(){
       this.isPlayButton = false;
+    },
+    setPauseState(){
+      this.isPlayButton = true;
     },
     handleNextButtonClick(){
       this.stopTimer();

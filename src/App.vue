@@ -5,7 +5,7 @@
       <NavBar />
     </section>
     <router-view />
-    <MusicPlayer />
+    <MusicPlayer :playingOne="getPlayingOne" />
   </div>
 </template>
 
@@ -35,6 +35,9 @@ export default {
  
   },
   computed: {
+    getPlayingOne(){
+      return this.$store.state.musicLibrary.playingOne
+    },
     username () {
       // 곧 `params` 확인할 수 있습니다.
       return this.$route.params.username

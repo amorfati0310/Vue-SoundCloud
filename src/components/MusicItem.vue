@@ -96,11 +96,16 @@ export default {
       const playPauseButton = target.closest('button');
       const musicId = Number(playPauseButton.id);  
       this.toggleButtonState();
-      this.$store.commit('PlayNewMusic', musicId)
+      if(window.musicLibrary.playingOne.id===musicId){
+        this.$store.commit('Play')
+      }
+      else this.$store.commit('PlayNewMusic', musicId)
+      this.$EventBus.$emit('startTimer')
     },
     handlePauseBtnClick(){ 
-      this.toggleButtonState();
       this.$store.commit('PauseMusic')
+      this.toggleButtonState();
+      this.$EventBus.$emit('pauseTimer')
     }
   }
 }

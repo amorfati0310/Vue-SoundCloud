@@ -5,6 +5,8 @@ import router from "./router";
 import store from "./store";
 //미들웨어
 
+Vue.prototype.$EventBus = new Vue();
+
 const musicLibrary = new MusicLibrary("#mockAudio");
 window.musicLibrary = musicLibrary;
 Vue.config.productionTip = false;

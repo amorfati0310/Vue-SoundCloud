@@ -17,9 +17,15 @@ const store = new Vuex.Store({
     BackToBeforeSearchList(state) {
       state.musicLibrary.searched = state.musicLibrary.showList;
     },
+    Play(state) {
+      state.musicLibrary.play();
+    },
+    StartTimer() {},
     PlayNewMusic(state, id) {
-      const newMusicItem = state.musicLibrary.findShowList(id);
-      state.musicLibrary.setPlayingOne(newMusicItem);
+      if (id !== state.musicLibrary.setPlayingOne.id) {
+        const newMusicItem = state.musicLibrary.findShowList(id);
+        state.musicLibrary.setPlayingOne(newMusicItem);
+      }
       state.musicLibrary.play();
     },
     PauseMusic(state) {
