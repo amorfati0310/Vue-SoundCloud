@@ -20,12 +20,14 @@
             </div>
             <div class="music__content">
               <div class="music__content-header">
-                <button class="playButton">
-                  <img src="../assets/icons/sc_play_button.svg" alt="play 재생 표시 버튼" />
+                <button class="playPauseButton"      @click="handlePlayPauseButtonClicked"
+                :id="music.id"
+                >
+                  <img src="../assets/icons/sc_pasue._button.svg" alt="play 재생 표시 버튼" />
                 </button>
                 <div class="music__content-titleBox">
                   <span>R-wan</span>
-                  <h2>{{ music.title }}</h2>
+                  <h2 class="musicTitle">{{ music.title }}</h2>
                 </div>
                 </div>
                   <div class="wave__progress">
@@ -58,8 +60,7 @@
                       <a href="">Comment</a>
                     </div>
                   </div>
-                </div>
-                
+                </div>   
             </div>
           </div>
         </li>
@@ -72,129 +73,72 @@ import {musicTimeFormat} from '../helper.js'
 
 export default {
  props: ['musicList'],
+ data() {
+   return {
+     isPlayButton: true,
+   }
+ },
+ computed: {
+   
+ },
  methods: {
     loadRunningTime(time){
       return musicTimeFormat(time)
     },
-    handlePlayPauseButtonClicked(){
-      if(this.isPlayButton) return this.handlePlayBtnClick()
+    handlePlayPauseButtonClicked(e){
+      if(this.isPlayButton) return this.handlePlayBtnClick(e)
       else return this.handlePauseBtnClick()
     },
-    handlePlayBtnClick(){
-
+    handlePlayBtnClick({target}){
+      const playPauseButton = target.closest('button');
+      const musicId = Number(playPauseButton.id);
+      const willChangeOne = window.musicLibrary.  findShowList(musicId)
+     
+      // window.musicLibrary.pause();
+      // window.musicLibrary.setPlayingOne(willChangeOne);
+      // window.musicLibrary.play()
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.header {
-  width: 100%;
-  background: #333;
-  height: 50px;
+.playPauseButton {
   display: flex;
-  align-items: center;
-}
-.header__inner {
-  flex: 1;
-  align-items: center;
-  padding: 0 30px;
-  margin: 0 auto;
-  display: flex;
-}
-.logo__link {
-  display: inline-flex;
-  width: 70px;
-  height: 50px;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
   background: #f50 linear-gradient(#f70, #f30);
-}
-.logo__heading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-}
-.main__nav {
-  ul {
-    display: flex;
-  }
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 0;
-    width: 104px;
-    height: 46px;
-    border-right: 1px solid #111;
-    text-align: center;
-    color: #999;
-    &:hover {
-      color: #fff;
-    }
-  }
-  .active {
-    background: #111;
-    color: #fff;
-  }
-}
-.headerSearch {
-  flex: 1;
-  padding: 9px 10px 8px;
-  position: relative;
-  color: #999;
-  input {
-    height: 30px;
-    width: 100%;
-    font-family: "Interstate", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Garuda, Verdana, Tahoma,
-      sans-serif;
-    font-weight: 100;
-    font-size: 14px;
-    line-height: 20px;
-    border-radius: 4px;
-    color: #666;
-    outline: 0;
-    border: 0;
-    padding: 5px 7px;
-    background: #e5e5e5;
-  }
-  input:focus {
-    background: #fff;
+  border-radius: 50%;
+  margin-right: 8px;
+  img: {
+    width: 18px;
+    height: 24px;
   }
 }
 
-.headerSearch__submit {
-  border: 0;
-  padding: 0;
-  background: url(../assets/icons/search.svg) center center no-repeat;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
+.musicTitle {
+  max-width: 200px;
 }
-// upload
-.uploadBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  height: 46px;
-  text-align: center;
-  color: #999;
-  &:hover {
-    color: #fff;
-  }
-}
-// userNav
-.user__nav {
-  ul {
+
+.wave__progress {
+  .timer {
+    width: 100%;
     display: flex;
-    a {
-      margin-left: 10px;
-      margin-right: 10px;
-    }
+    justify-content: space-between;
   }
+}
+
+.list__description {
+  margin-top: 30px;
+  margin-bottom: 40px;
+  font-size: 18px;
+  font-weight: 100;
+  color: #999;
+}
+
+.wrapper__main {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>

@@ -12,7 +12,11 @@ const MusicLibrary = class {
   init() {
     this.showList = this.library;
     this.searched = this.showList;
-    this.setPlayingOne();
+    this.setPlayingIdx();
+  }
+
+  findShowList(id) {
+    return this.showList.find(({ id }) => id === id);
   }
   mockGetRunningTime() {
     return Math.floor(this.playingOne.runningTime / 1000);
@@ -24,7 +28,11 @@ const MusicLibrary = class {
     //  mock 자동 넘어가는 부분 구현을 위한 mock 처리
     return this.playingOne.runningTime;
   }
-  setPlayingOne(activeIdx = 0) {
+  setPlayingOne(playingOne) {
+    this.playingOne = playingOne;
+    this.mockPlayEl.setAttribute("src", this.playingOne.src);
+  }
+  setPlayingIdx(activeIdx = 0) {
     this.playingOne = this.library[activeIdx];
     this.mockPlayEl.setAttribute("src", this.playingOne.src);
   }
@@ -53,12 +61,12 @@ const MusicLibrary = class {
   }
   next() {
     const nextIdx = this.setNextIdx();
-    this.setPlayingOne(nextIdx);
+    this.setPlayingIdx(nextIdx);
     this.play();
   }
   prev() {
     const prevIdx = this.setPrevIdx();
-    this.setPlayingOne(prevIdx);
+    this.setPlayingIdx(prevIdx);
     this.play();
   }
   getCurrentTime() {

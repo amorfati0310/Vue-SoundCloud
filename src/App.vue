@@ -32,11 +32,7 @@ export default {
   },
   created(){
     if(this.dragularMusics) this.dragularMusics.destroy()
-    // this.dragulaMusics = dragula([
-    //   ...Array.from(this.$el.querySelectorAll('.music-list'))
-    // ]).on('drop', (el, wrapper, target, siblings)=>{
-    //   console.log('drop')
-    // })
+ 
   },
   computed: {
     username () {

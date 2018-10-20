@@ -109,40 +109,4 @@ button {
   justify-content: flex-start;
   margin-bottom: 10px;
 }
-
-.playButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: #f50 linear-gradient(#f70, #f30);
-  border-radius: 50%;
-  margin-right: 8px;
-  img: {
-    width: 18px;
-    height: 24px;
-  }
-}
-
-.wave__progress {
-  .timer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.list__description {
-  margin-top: 30px;
-  margin-bottom: 40px;
-  font-size: 18px;
-  font-weight: 100;
-  color: #999;
-}
-
-.wrapper__main {
-  padding-left: 20px;
-  padding-right: 20px;
-}
 </style>
