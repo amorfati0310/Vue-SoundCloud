@@ -33,18 +33,32 @@
         </button>
       </li>
     </ul>
-     <MusicPlayerProgress 
-      :loadCurrentTime="loadCurrentTime"
-      :loadProgress="loadProgress"
-      :loadProgressHandler="loadProgressHandler"
-      :loadRunningTime="loadRunningTime"
-    />
+    <div class="progress__section">
+     <div class="timer">{{loadCurrentTime}}</div>
+     <MusicPlayerProgress
+      ref="progressBar"
+      @changePercent="updateTime"
+    /> 
+    <div class="runningTime">
+      {{loadRunningTime}}
+    </div>
+    </div>
+    <div class="volumeSection">
+      <VerticalProgress
+        @getVolumePercent="upateVolume"
+      />
+      <button 
+        @click="activeVolumBar"
+        @mousemove="activeVolumBar"
+        >
+        <img src="../assets/icons/volumeBtn.svg" alt="">
+      </button>
+    </div>
     <div class="playingOne__box">
       <img class="cover__thumbnail" :src="playingOne.cover" alt="">
       <span v-if="hasSoundBadGe">badge</span>
       <span >{{playingOne.title}}</span>
     </div>
-   
   </section>
 </template>
 
@@ -52,7 +66,7 @@
 import animation from '../animation.js';
 import {musicTimeFormat, shuffle} from '../helper.js';
 import MusicPlayerProgress from './MusicPlayerProgress.vue';
-
+import VerticalProgress from './VerticalProgress';
 //assets
 
 
@@ -60,6 +74,7 @@ export default {
  props: ['playingOne'],
  components: {
   MusicPlayerProgress,
+  VerticalProgress,
  },
  data(){
     return {
@@ -68,26 +83,7 @@ export default {
       hasSoundBadGe: false,
       currentTime: 0,
       timerId: null,
-    }
-  },
-  computed: {
-    loadRunningTime(){
-      return musicTimeFormat( this.$store.state.musicLibrary.playingOne.runningTime)
-    },
-    loadCurrentTime(){
-      return musicTimeFormat(this.currentTime)
-    },
-     loadProgress () {
-        const percent = (this.currentTime/this.$store.state.musicLibrary.playingOne.runningTime).toFixed(4)*100
-            const style = {}
-            style.width = percent+'%';
-            return style
-    },
-    loadProgressHandler(){
-            const percent = (this.currentTime/this.$store.state.musicLibrary.playingOne.runningTime).toFixed(4)*100
-            const style = {}
-            style.left = percent+'%';
-            return style
+      volumBarActive: false,
     }
   },
   created() { 
@@ -98,9 +94,32 @@ export default {
         this.setPauseView()
     }); 
   },
+  computed: {
+    loadCurrentTime(){
+      return  musicTimeFormat(this.currentTime*1000)
+    },
+    loadRunningTime(){
+      return  musicTimeFormat(this.$store.state.musicLibrary.mockGetRunningTime()*1000)
+    }
+  },
   methods : {
     shuffleList(){
         shuffle(window.musicLibrary.library)
+    },
+    deactiveVolumBar(){
+      this.volumBarActive = false;
+    },
+    activeVolumBar(){
+      this.volumBarActive = true;
+    },
+    upateVolume(volumePercent){
+       this.$store.commit('ChangeVolume',volumePercent)
+    },
+    updateTime(percent){
+      const runningTime =this.$store.state.musicLibrary.mockGetRunningTime()
+      this.currentTime = runningTime*percent/100
+      console.log(this.currentTime)
+      this.$store.commit('UpdateTime', this.currentTime)
     },
     handlePlayPauseButtonClick(){
       if(this.isPlayButton) return this.handlePlayBtnClick()
@@ -124,13 +143,16 @@ export default {
      this.setPauseState()
     },
     startTimer(){
-      this.currentTime = Math.floor(this.$store.state.musicLibrary.getCurrentTime()*1000)
       console.log(this.$store.state.musicLibrary.getCurrentTime(),
       this.$store.state.musicLibrary.mockGetRunningTime())
+
+  this.currentTime = this.$store.state.musicLibrary.getCurrentTime()
 
       if(this.$store.state.musicLibrary.getCurrentTime()>=this.$store.state.musicLibrary.mockGetRunningTime()){
         return this.handleNextButtonClick()
       }
+      const percent = this.$store.state.musicLibrary.getProgressPercent()
+      this.$refs.progressBar.load(percent)
       this.timerId = setTimeout(()=>this.startTimer(),16)
     },
     stopTimer(){
@@ -147,14 +169,14 @@ export default {
     },
     handleNextButtonClick(){
       this.stopTimer();
-      this.setPlayState()
-      window.musicLibrary.next()
+      this.setPlayState();
+      this.$store.commit('PlayNextMusic')
       this.startTimer();
     },
     handlePrevButtonClick(){
       this.stopTimer();
-      this.setPlayState()
-      window.musicLibrary.prev()
+      this.setPlayState();
+      this.$store.commit('PlayPrevMusic')
       this.startTimer();
     },
   }
@@ -188,5 +210,36 @@ export default {
   height: 40px;
   margin-right: 18px;
   margin-left: 10px;
+}
+
+.progress__section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 300px;
+  .timer {
+    color: #f50;
+    font-size: 12px;
+    margin-right: 10px;
+  }
+  .runningTime {
+    font-size: 12px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+
+.volumeSection {
+  display: flex;
+  position: relative;
+  .verticalBox {
+    display: none;
+  }
+  &:hover {
+    .verticalBox {
+      display: block;
+    }
+  }
 }
 </style>

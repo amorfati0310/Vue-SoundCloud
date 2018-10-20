@@ -6,7 +6,7 @@
         </router-link>
        </li>
        <li>
-        <router-link to="/" name="router">
+        <router-link to="/artists" name="router">
           Artists
         </router-link>
        </li>
@@ -16,7 +16,7 @@
        </router-link>
       </li>
       <li>
-       <router-link to="/album" name="router">
+       <router-link to="/genres" name="router">
         Genres
        </router-link>
       </li>

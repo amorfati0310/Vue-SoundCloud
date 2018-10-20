@@ -33,8 +33,7 @@
                 </div>
                   <div class="wave__progress">
                     <div class="timer">
-                      <span class="start"></span>
-                      <span class="runningTime">{{loadRunningTime(music.runningTime)}}</span>
+                      
                     </div>
                 </div>
                 <div class="music__toolbar">
@@ -80,7 +79,9 @@ export default {
      isPlayButton: true,
    }
  },
-
+ computed: {
+  
+ },
  methods: {
     loadRunningTime(time){
       return musicTimeFormat(time)
@@ -111,6 +112,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.music__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
 .playPauseButton {
   display: flex;
   align-items: center;

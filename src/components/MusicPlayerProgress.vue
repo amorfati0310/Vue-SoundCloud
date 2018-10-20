@@ -1,26 +1,82 @@
 <template>
  <div class="progress__box">
-    <div class="timer">{{loadCurrentTime}}</div>
-    <div class="progressWrapper" role="progressbar">
+    <div class="progressWrapper" 
+      role="progressbar" 
+      @mousemove="setProgressPosition"
+      @mousedown="setActive"
+      @mouseup="setDeactvie"
+      @click="jumpToProgress"
+    >
     <div class="progressBackground"></div>
-    <div class="progressPassedBackground"  :style="loadProgress"></div>
-    <div class="progressHandler" :style="loadProgressHandler"></div>
-    </div>
-    <div class="runningTime">
-      {{loadRunningTime}}
+    <div class="progressPassedBackground"  :style="style.bg"></div>
+    <div class="progressHandler" :style="style.handler"></div>
     </div>
   </div>
 </template>
 
 <script>
+import { musicTimeFormat } from '../helper.js';
+
+
 export default {
-  props: ['loadProgressHandler','loadProgress','loadCurrentTime', 'loadRunningTime']
+  data() {
+    return {
+      style: {
+        bg:{},
+        handler: {}
+      },
+      length: 0,
+      position: 0,
+      percent: 0,
+      active: false
+    }
+  },
+  methods: {
+    setActive(){
+      this.active = true;
+    },
+    setDeactvie(){
+      this.active = false;
+    },
+    setProgressPosition(e){
+     if(this.active===false) return ;
+     this.jumpToProgress(e);
+    },
+    calcPosition(e){
+      const nowX = e.clientX
+      const progressBar = this.$el
+      const {left, right } = progressBar.getBoundingClientRect()
+      this.length = right-left
+      this.position = nowX-left > 0 ? nowX-left : 0;
+     this.percent = ((this.position/this.length )*100).toFixed(4)
+    },
+    jumpToProgress(e){
+      this.calcPosition(e)
+      this.load(this.percent)
+      this.$emit('changePercent', this.percent)
+    },
+    load(percent){
+      this.loadProgress(percent)
+      this.loadProgressHandler(percent)
+    },
+    loadProgress(percent){
+      const style = {}
+      style.width = percent+'%';
+      this.style.bg = style;
+    },
+     loadProgressHandler(percent){
+      const style = {}
+      style.left = percent+'%';
+      this.style.handler = style
+    }
+  },   
 }
 </script>
 <style lang="scss" scoped>
 .progress__box {
   min-width: 40%;
   display: flex;
+  flex: 1;
   &:hover {
     .progressHandler {
       opacity: 1;
@@ -34,6 +90,7 @@ export default {
     flex-grow: 1;
     padding: 10px 0;
     margin: 13px 10px 0 10p;
+    cursor: pointer;
   }
   .timer,
   .runningTime {

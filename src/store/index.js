@@ -20,16 +20,25 @@ const store = new Vuex.Store({
     Play(state) {
       state.musicLibrary.play();
     },
-    StartTimer() {},
+    UpdateTime(state, time) {
+      state.musicLibrary.UpdateTime(time);
+    },
+    PlayNextMusic(state) {
+      state.musicLibrary.PlayNextMusic();
+    },
+    PlayPrevMusic(state) {
+      state.musicLibrary.PlayPrevMusic();
+    },
     PlayNewMusic(state, id) {
-      if (id !== state.musicLibrary.setPlayingOne.id) {
-        const newMusicItem = state.musicLibrary.findShowList(id);
-        state.musicLibrary.setPlayingOne(newMusicItem);
-      }
+      const newMusicItem = state.musicLibrary.findShowList(id);
+      state.musicLibrary.setPlayingOne(newMusicItem);
       state.musicLibrary.play();
     },
     PauseMusic(state) {
       state.musicLibrary.pause();
+    },
+    ChangeVolume(state, percent) {
+      state.musicLibrary.ChangeVolume(percent);
     }
   }
 });
