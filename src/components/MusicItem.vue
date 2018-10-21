@@ -1,5 +1,5 @@
 <template>
-  <li class="soundList__item" id="id">
+  <li class="soundList__item">
     <div class="soundContext">
       <div class="genre-avatar textHide">Genre avatar</div>
             <div class="soundContext__box">
@@ -20,7 +20,6 @@
             <div class="music__content">
               <div class="music__content-header">
                 <button class="playPauseButton"      @click="handlePlayPauseButtonClicked"
-                :id="id"
                 >
                   <img v-if="isPlayButton"
                 src="../assets/icons/sc_play_button.svg" alt="play pause 표시 버튼" /> 
@@ -76,10 +75,10 @@ export default {
       isPlayButton: true,
     }
  },
- props: ['id','title','cover', 'isPlaying'],
+ props: ['title','cover', 'isPlaying'],
  watch: { 
       	isPlaying(newV,oldV){
-          console.log(newV, oldV)
+          this.isPlayButton = !newV;
         }
   },
  methods: {
@@ -93,24 +92,13 @@ export default {
     toggleButtonState(){
       return this.isPlayButton =!this.isPlayButton
     },
-    handlePlayBtnClick({target}){
-      const playPauseButton = target.closest('button');
-      const musicId = Number(playPauseButton.id);  
+    handlePlayBtnClick(){
+      this.$emit('play');
       this.toggleButtonState();
-      this.$emit('saveActiveIdx', {id: musicId})
-      if(window.musicLibrary.playingOne.id===musicId){
-        this.$store.commit('Play')
-      }
-      else this.$store.commit('PlayNewMusic', musicId)
-      this.$EventBus.$emit('startTimer')
     },
-    handlePauseBtnClick({target}){  
-       const playPauseButton = target.closest('button');
-      const musicId = Number(playPauseButton.id); 
+    handlePauseBtnClick(){
+      this.$emit('pause');  
       this.toggleButtonState();
-      this.$store.commit('PauseMusic')
-      this.$emit('saveActiveIdx', {id: musicId})
-      this.$EventBus.$emit('pauseTimer')
     }
   }
 }

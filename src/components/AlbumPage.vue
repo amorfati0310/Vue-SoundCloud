@@ -17,31 +17,9 @@ import Header from './Header.vue'
 import MusicPlayer from './MusicPlayer.vue'
 import MusicPlayerProgress from './MusicPlayerProgress.vue'
 import {musicTimeFormat} from '../helper.js'
-// static Asset
-import  soundLogo  from "../assets/icons/soundLogo.png";
-
 
 export default {
-  name: 'app',
-  data(){
-    return {
-      logo: soundLogo,
-      playList: window.musicLibrary
-    }
-  },
-  methods: {
-    loadRunningTime(time){
-      return musicTimeFormat(time)
-    }
-  },
-  computed: {
-  
-  },
-  components: {
-    Header,
-    MusicPlayer,
-    MusicPlayerProgress,
-  }
+  name: 'album',
 }
 </script>
 

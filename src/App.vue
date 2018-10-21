@@ -5,7 +5,7 @@
       <NavBar />
     </section>
     <router-view />
-    <MusicPlayer :playingOne="getPlayingOne" />
+    <MusicPlayer :title="title" :cover="cover" />
   </div>
 </template>
 
@@ -26,14 +26,17 @@ export default {
     return {
       logo: soundLogo,
       playList: window.musicLibrary,
-      dragularMusics: null,
     }
   },
-  created(){
-    if(this.dragularMusics) this.dragularMusics.destroy()
- 
-  },
   computed: {
+    title () {
+      if (!this.getPlayingOne) return '';
+      return this.getPlayingOne.Title;
+    },
+    cover () {
+      if (!this.getPlayingOne) return '';
+      return this.getPlayingOne.Album.Picture;
+    },
     getPlayingOne(){
       return this.$store.state.musicLibrary.playingOne
     },

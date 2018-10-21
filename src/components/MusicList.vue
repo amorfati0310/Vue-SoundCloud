@@ -1,12 +1,14 @@
 <template>
  <ul>
    <MusicItem 
-    v-for="music in musicList" 
+    v-for="music in normalizeItems" 
      v-bind="music"
      ref="musicItem"
     :key=music.id 
-    :isPlaying="checkPlaying(music.id)"
+    :isPlaying="music === playingMusic"
     @saveActiveIdx="saveActiveIdx"
+    @play="onPlay(music)"
+    @pause="onPause(music)"
   />
   </ul>
 </template>
@@ -20,18 +22,38 @@ export default {
   components: {
     MusicItem,
   },
- props: ['musicList'],
-  data() {
-    return {
-      playingId: 1,
+  props: ['musicList'],
+  watch: {
+    musicList (musicList) {
+      this.items = musicList;
     }
   },
+  computed: {
+    normalizeItems () {
+      return this.items.map(music => {
+        return {
+          music: music,
+          title: music.Title,
+          artist: music.Artist.Name,
+          cover: music.Album.Picture,
+        };
+      });
+    }
+  },
+  data() {
+    return {
+      playingMusic: null,
+      items: this.musicList,
+    };
+  },
   methods: {
-    checkPlaying(id){
-      return this.playingId===id
+    onPause(music) {
+      this.playingMusic = null;
     },
-    saveActiveIdx({id}){
-      this.playingId = id;
+    onPlay (music) {
+      this.playingMusic = music;
+
+      this.$store.state.musicLibrary.setPlayingOne(music.music);
     }
   }
 }

@@ -2,7 +2,7 @@
   <div id="home">
     <section class="wrapper__main">
       <p class="list__description">Hear the latest posts from the people you’re following:</p>
-      <MusicList :musicList="getMusicList"/>
+      <MusicList :musicList="musicList"/>
     </section>
   </div>
 </template>
@@ -22,8 +22,8 @@ export default {
     }
   },
   computed: {
-    getMusicList(){
-      return this.$store.state.musicLibrary.searched
+    musicList(){
+      return this.$store.state.musicLibrary.searched;
     },
   },
   components: {

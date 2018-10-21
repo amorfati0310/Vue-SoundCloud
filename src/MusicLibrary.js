@@ -1,39 +1,74 @@
 import mockMusicLibrary from "./assets/mockMusicLibrary";
 const MusicLibrary = class {
   constructor(audioSelector) {
-    this.idx = 0;
-    this.volume = 5;
-    this.showList = null;
-    this.searched = null;
-    this.library = mockMusicLibrary;
-    this.playingOne = mockMusicLibrary[0] || null;
-    this.mockPlayEl = document.querySelector(audioSelector);
-    this.init();
+    this.length = 0;
+    this.currentMusic = null;
+    this.position = 0;
+    this.library = [];
+    this.searched = [];
+    this.showList = [];
+
+    player.on("positionChanged", () => {
+      player.getPosition().then(position => {
+        this.position = position;
+      });
+    });
+
+    player.on("currentMusicChanged", () => {
+      player.getCurrentMusic().then(music => {
+        this.currentMusic = music;
+      });
+
+      player.getLength().then(length => {
+        this.length = length;
+      });
+    });
+
+    library.getMusics().then(musics => {
+      this.library = musics;
+      this.showList = this.library;
+      this.searched = this.showList;
+    });
+
+    // this.idx = 0;
+    // this.volume = 5;
+    // this.showList = null;
+    // this.searched = null;
+    // this.library = mockMusicLibrary;
+    // this.playingOne = mockMusicLibrary[0] || null;
+    // this.mockPlayEl = document.querySelector(audioSelector);
+    // this.init();
   }
   init() {
     this.showList = this.library;
     this.searched = this.showList;
-    this.setPlayingIdx();
+    // this.setPlayingIdx();
   }
   findShowList(musicId) {
     return this.showList.find(({ id }) => id === musicId);
   }
   mockGetRunningTime() {
-    return Math.floor(this.playingOne.runningTime / 1000);
+    return this.length / 1000;
+    // return Math.floor(this.playingOne.runningTime / 1000);
   }
   getPlayingOne() {
-    return this.playingOne;
+    return this.currentMusic;
+    // return this.playingOne;
   }
   getRunningTime() {
     //  mock 자동 넘어가는 부분 구현을 위한 mock 처리
-    return this.playingOne.runningTime;
+    // return this.playingOne.runningTime;
+    return this.length;
   }
   setPlayingOne(playingOne) {
-    this.playingOne = playingOne;
-    this.mockPlayEl.setAttribute("src", this.playingOne.src);
+    player.playByMusic(playingOne);
+    // this.playingOne = playingOne;
+    // this.mockPlayEl.setAttribute("src", this.playingOne.src);
   }
   UpdateTime(time) {
-    this.mockPlayEl.currentTime = time;
+    this.position = time;
+    player.setPosition(time);
+    // this.mockPlayEl.currentTime = time;
   }
   setPrevIdx() {
     let {
@@ -52,25 +87,29 @@ const MusicLibrary = class {
     return (this.idx = (idx + 1) % length);
   }
   PlayNextMusic() {
-    this.setNextIdx();
-    this.setPlayingIdx(this.idx);
-    this.play();
+    player.playNext();
+    // this.setNextIdx();
+    // this.setPlayingIdx(this.idx);
+    // this.play();
   }
   PlayPrevMusic() {
-    this.setPrevIdx();
-    this.setPlayingIdx(this.idx);
-    this.play();
+    // this.setPrevIdx();
+    // this.setPlayingIdx(this.idx);
+    // this.play();
+    player.playPrevious();
   }
   setPlayingIdx(activeIdx = 0) {
     this.playingOne = this.library[activeIdx];
     this.mockPlayEl.setAttribute("src", this.playingOne.src);
   }
   play() {
-    if (this.playingOne === null) return;
-    this.mockPlayEl.play();
+    // if (this.playingOne === null) return;
+    // this.mockPlayEl.play();
+    player.play();
   }
   pause() {
-    this.mockPlayEl.pause();
+    // this.mockPlayEl.pause();
+    player.pause();
   }
   next() {
     const nextIdx = this.setNextIdx();
@@ -78,13 +117,15 @@ const MusicLibrary = class {
     this.play();
   }
   getCurrentTime() {
-    return this.mockPlayEl.currentTime;
+    return this.position;
+    // return this.mockPlayEl.currentTime;
   }
   getProgressPercent() {
-    return (this.getCurrentTime() / this.mockGetRunningTime()) * 100;
+    return (this.getCurrentTime() / this.getRunningTime()) * 100;
   }
   ChangeVolume(percent) {
-    this.volume = percent;
+    // this.volume = percent;
+    player.setVolume(percent / 100);
   }
 };
 

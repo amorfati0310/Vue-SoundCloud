@@ -34,13 +34,13 @@
       </li>
     </ul>
     <div class="progress__section">
-     <div class="timer">{{loadCurrentTime}}</div>
+     <div class="timer">{{currentTimeText}}</div>
      <MusicPlayerProgress
       ref="progressBar"
       @changePercent="updateTime"
     /> 
     <div class="runningTime">
-      {{loadRunningTime}}
+      {{runningTimeText}}
     </div>
     </div>
     <div class="volumeSection">
@@ -55,9 +55,9 @@
       </button>
     </div>
     <div class="playingOne__box">
-      <img class="cover__thumbnail" :src="playingOne.cover" alt="">
+      <img class="cover__thumbnail" :src="cover" alt="">
       <span v-if="hasSoundBadGe">badge</span>
-      <span >{{playingOne.title}}</span>
+      <span >{{title}}</span>
     </div>
   </section>
 </template>
@@ -71,7 +71,16 @@ import VerticalProgress from './VerticalProgress';
 
 
 export default {
- props: ['playingOne'],
+ props: {
+   title: {
+     type: String,
+     default: '',
+   },
+   cover: {
+     type: String,
+     default: '',
+   },
+ },
  components: {
   MusicPlayerProgress,
   VerticalProgress,
@@ -84,6 +93,8 @@ export default {
       currentTime: 0,
       timerId: null,
       volumBarActive: false,
+      currentTimeText: '',
+      runningTimeText: '',
     }
   },
   created() { 
@@ -93,14 +104,10 @@ export default {
     this.$EventBus.$on('pauseTimer', () => { 
         this.setPauseView()
     }); 
+     this.startTimer();
   },
-  computed: {
-    loadCurrentTime(){
-      return  musicTimeFormat(this.currentTime*1000)
-    },
-    loadRunningTime(){
-      return  musicTimeFormat(this.$store.state.musicLibrary.mockGetRunningTime()*1000)
-    }
+  destroyed () {
+     this.stopTimer();
   },
   methods : {
     shuffleList(){
@@ -126,36 +133,48 @@ export default {
       else return this.handlePauseBtnClick()
     },
     setPlayingView(){
-     this.startTimer();
      this.setPlayState()
     },
     setPauseView(){
-     this.stopTimer();
      this.setPauseState()
     },
     handlePlayBtnClick(){
-      player.play()
      this.$store.commit('Play')
      this.setPlayingView();
     },
     handlePauseBtnClick(){
      this.$store.commit('PauseMusic')
-     this.stopTimer();
      this.setPauseState()
     },
-    startTimer(){
+    startTimer() {
+      let recursive = (params) => {
+        let percent = this.$store.state.musicLibrary.getProgressPercent();
+        
+        let currentTime = this.$store.state.musicLibrary.getCurrentTime();
+
+        let runningTime = this.$store.state.musicLibrary.getRunningTime();
+        
+        this.$refs.progressBar.load(percent);
+        this.currentTimeText = musicTimeFormat(currentTime);
+        this.runningTimeText = musicTimeFormat(runningTime);
+
+        setTimeout(recursive, 100);
+      };
+
+      this.timerId = setTimeout(recursive, 100);
+    },
       // console.log(this.$store.state.musicLibrary.getCurrentTime(),
       // this.$store.state.musicLibrary.mockGetRunningTime())
 
-  this.currentTime = this.$store.state.musicLibrary.getCurrentTime()
+  // this.currentTime = this.$store.state.musicLibrary.getCurrentTime()
 
-      if(this.$store.state.musicLibrary.getCurrentTime()>=this.$store.state.musicLibrary.mockGetRunningTime()){
-        return this.handleNextButtonClick()
-      }
-      const percent = this.$store.state.musicLibrary.getProgressPercent()
-      this.$refs.progressBar.load(percent)
-      this.timerId = setTimeout(()=>this.startTimer(),16)
-    },
+  //     if(this.$store.state.musicLibrary.getCurrentTime()>=this.$store.state.musicLibrary.mockGetRunningTime()){
+  //       return this.handleNextButtonClick()
+  //     }
+  //     const percent = this.$store.state.musicLibrary.getProgressPercent()
+  //     this.$refs.progressBar.load(percent)
+  //     this.timerId = setTimeout(()=>this.startTimer(),16)
+  //   },
     stopTimer(){
       clearTimeout(this.timerId)
     },
@@ -171,14 +190,12 @@ export default {
     handleNextButtonClick(){
       this.stopTimer();
       this.setPlayState();
-      player.playNext()
       this.$store.commit('PlayNextMusic')
       this.startTimer();
     },
     handlePrevButtonClick(){
       this.stopTimer();
       this.setPlayState();
-      player.playPrev()
       this.$store.commit('PlayPrevMusic')
       this.startTimer();
     },
