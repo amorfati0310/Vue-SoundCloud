@@ -79,7 +79,9 @@ export default {
  props: ['id','title','cover', 'isPlaying'],
  watch: { 
       	isPlaying(newV,oldV){
-          console.log(newV, oldV)
+         if(newV!==oldV){
+           if(this.isPlaying===false) this.isPlayButton = !this.isPlayingButton;
+         }
         }
   },
  methods: {

@@ -118,7 +118,7 @@ export default {
     updateTime(percent){
       const runningTime =this.$store.state.musicLibrary.mockGetRunningTime()
       this.currentTime = runningTime*percent/100
-      console.log(this.currentTime)
+      // console.log(this.currentTime)
       this.$store.commit('UpdateTime', this.currentTime)
     },
     handlePlayPauseButtonClick(){
@@ -134,7 +134,7 @@ export default {
      this.setPauseState()
     },
     handlePlayBtnClick(){
-      player.play()
+      //  player.play()
      this.$store.commit('Play')
      this.setPlayingView();
     },
@@ -171,14 +171,14 @@ export default {
     handleNextButtonClick(){
       this.stopTimer();
       this.setPlayState();
-      player.playNext()
+      // player.playNext()
       this.$store.commit('PlayNextMusic')
       this.startTimer();
     },
     handlePrevButtonClick(){
       this.stopTimer();
       this.setPlayState();
-      player.playPrev()
+      // player.playPrev()
       this.$store.commit('PlayPrevMusic')
       this.startTimer();
     },
