@@ -1,23 +1,24 @@
 <template>
-  <div id="app">
-    <Header :logo="logo" />
-    <section class="router__section">
-      <NavBar />
+  <div id="album">
+    <section class="wrapper__main">
+      <h1 class="list__description">More of what you like</h1>
+      <p>Suggestions based on what you've liked or played</p>
+      <section class="main__ablumSlider">매인 앨범</section>
+      <section class="hotAlbumList">hotAlbum</section>
+      <section class="artistSlider">아티스트</section>
+      <section class="chartsSlider">챠트 슬라이더</section>
     </section>
-    <router-view />
-    <MusicPlayer :playingOne="getPlayingOne" />
   </div>
 </template>
 
 <script>
 
-import Header from './components/Header.vue'
-import NavBar from './components/NavBar.vue'
-import MusicPlayer from './components/MusicPlayer.vue'
-import MusicPlayerProgress from './components/MusicPlayerProgress.vue'
-import {musicTimeFormat} from './helper.js'
+import Header from './Header.vue'
+import MusicPlayer from './MusicPlayer.vue'
+import MusicPlayerProgress from './MusicPlayerProgress.vue'
+import {musicTimeFormat} from '../helper.js'
 // static Asset
-import  soundLogo  from "./assets/icons/soundLogo.png";
+import  soundLogo  from "../assets/icons/soundLogo.png";
 
 
 export default {
@@ -25,49 +26,27 @@ export default {
   data(){
     return {
       logo: soundLogo,
-      playList: window.musicLibrary,
-      dragularMusics: null,
-    }
-  },
-  created(){
-    if(this.dragularMusics) this.dragularMusics.destroy()
- 
-  },
-  computed: {
-    getPlayingOne(){
-      return this.$store.state.musicLibrary.playingOne
-    },
-    username () {
-      // 곧 `params` 확인할 수 있습니다.
-      return this.$route.params.username
+      playList: window.musicLibrary
     }
   },
   methods: {
     loadRunningTime(time){
       return musicTimeFormat(time)
-    },
-     goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
-    },
+    }
+  },
+  computed: {
+  
   },
   components: {
     Header,
     MusicPlayer,
     MusicPlayerProgress,
-    NavBar,
   }
 }
 </script>
 
 <style lang="scss">
-@import "./style/reset.scss";
-.router__section {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
+@import "../style/reset.scss";
 button {
   background: transparent;
   border: 0;
@@ -127,7 +106,7 @@ button {
 .genre-avatar {
   width: 30px;
   height: 30px;
-  background: url("./assets/images/edmExampleBadge.jpg");
+  background: url("../assets/images/edmExampleBadge.jpg");
   text-align: center;
   position: relative;
   background-size: cover;
